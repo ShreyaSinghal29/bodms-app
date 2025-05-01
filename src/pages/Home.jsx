@@ -17,7 +17,7 @@ const Home = () => {
 
       {/* Hero Section */}
       <div className="flex flex-col-reverse lg:flex-row items-center justify-between px-6 lg:px-24 py-16">
-        {/* Image Section with Animation */}
+        {/* Image Section */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -25,14 +25,13 @@ const Home = () => {
           className="w-full lg:w-1/2 flex justify-center mb-12 lg:mb-0"
         >
           <img
-  src="/images/original-003adee00415551ad9ee08e8388ccee0.webp"
-  alt="Blood Donation"
-  className="max-w-md w-full drop-shadow-xl"
-/>
-
+            src="/images/original-003adee00415551ad9ee08e8388ccee0.webp"
+            alt="Blood Donation"
+            className="max-w-md w-full drop-shadow-xl"
+          />
         </motion.div>
 
-        {/* Text Content with Animation */}
+        {/* Text Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -63,16 +62,15 @@ const Home = () => {
               </motion.button>
             </Link>
             <Link to="https://minorbodms.streamlit.app/" target="_blank" rel="noopener noreferrer">
-  <button className="bg-pink-500 text-white px-6 py-2 rounded-full">
-    Check AI Matches
-  </button>
-</Link>
-
+              <button className="bg-pink-500 text-white px-6 py-2 rounded-full">
+                Check AI Matches
+              </button>
+            </Link>
           </div>
         </motion.div>
       </div>
 
-      {/* Gradient Background Wave */}
+      {/* Decorative Wave Background */}
       <div className="absolute bottom-0 w-full z-[-1]">
         <svg viewBox="0 0 1440 320" className="w-full">
           <path

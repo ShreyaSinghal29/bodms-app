@@ -13,13 +13,13 @@ app.use(express.json());
 // Routes
 app.use("/api/donors", donorRoutes);
 
-// MongoDB connection
+// MongoDB + server start
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("MongoDB connected");
-    app.listen(process.env.PORT, () => {
-      console.log(`Server running on port ${process.env.PORT}`);
-    });
+    app.listen(process.env.PORT, () =>
+      console.log(`Server running on port ${process.env.PORT}`)
+    );
   })
-  .catch((err) => console.error("MongoDB connection failed:", err));
+  .catch((err) => console.error("DB connection failed:", err));

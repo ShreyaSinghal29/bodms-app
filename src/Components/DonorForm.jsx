@@ -16,7 +16,6 @@ const DonorForm = () => {
     longitude: "",
     hlaType: "",
     urgencyLevel: "",
-    // New recipient fields for AI matching
     recipientBloodType: "",
     recipientRh: "",
     recipientAge: "",
@@ -97,7 +96,6 @@ const DonorForm = () => {
           },
           hlaType: formData.hlaType || null,
           urgencyLevel: Number(formData.urgencyLevel) || null,
-          // Add recipient data to payload (for AI API or backend matching)
           recipient: {
             bloodType: formData.recipientBloodType,
             rh: formData.recipientRh,
@@ -109,10 +107,14 @@ const DonorForm = () => {
       });
 
       const data = await res.json();
-      alert("Donor registered successfully!");
+      if (res.ok) {
+        alert("Donor registered successfully!");
+      } else {
+        alert("Failed to register donor.");
+      }
     } catch (error) {
-      console.error("Registration failed:", error);
-      alert("Failed to register donor.");
+      console.error("Registration error:", error);
+      alert("Server error during registration.");
     }
   };
 
@@ -136,12 +138,12 @@ const DonorForm = () => {
           }));
         },
         (err) => {
-          alert("Location access denied or unavailable.");
+          alert("Location access denied.");
           console.error("Geolocation error:", err);
         }
       );
     } else {
-      alert("Geolocation is not supported by this browser.");
+      alert("Geolocation not supported.");
     }
   };
 
@@ -149,113 +151,100 @@ const DonorForm = () => {
     <div className="bg-white p-8 rounded-xl shadow-lg max-w-3xl mx-auto mt-10">
       <h2 className="text-3xl font-bold mb-6 text-center text-red-600">Donor Registration</h2>
       <form onSubmit={handleSubmit} className="space-y-6">
-
-        {/* Personal Info */}
-        <div>
-          <h3 className="text-lg font-semibold text-gray-700 mb-4 border-b pb-2">Personal Information</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Input label="Donor ID" value={formData.donorId} onChange={handleChange("donorId")} />
-              {renderError("donorId")}
-            </div>
-            <div>
-              <Input label="Name" value={formData.name} onChange={handleChange("name")} />
-              {renderError("name")}
-            </div>
-            <div>
-              <Input
-                label="Contact"
-                type="tel"
-                placeholder="10-digit number"
-                value={formData.contact}
-                onChange={handleChange("contact")}
-              />
-              {renderError("contact")}
-            </div>
-            <div>
-              <Input label="Age" type="number" value={formData.age} onChange={handleChange("age")} />
-              {renderError("age")}
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Gender</label>
-              <select
-                value={formData.gender}
-                onChange={handleChange("gender")}
-                className="w-full border border-gray-300 rounded px-3 py-2"
-              >
-                <option value="">Select</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-              </select>
-              {renderError("gender")}
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <Input label="Donor ID" value={formData.donorId} onChange={handleChange("donorId")} />
+            {renderError("donorId")}
+          </div>
+          <div>
+            <Input label="Name" value={formData.name} onChange={handleChange("name")} />
+            {renderError("name")}
+          </div>
+          <div>
+            <Input
+              label="Contact"
+              type="tel"
+              placeholder="10-digit number"
+              value={formData.contact}
+              onChange={handleChange("contact")}
+            />
+            {renderError("contact")}
+          </div>
+          <div>
+            <Input label="Age" type="number" value={formData.age} onChange={handleChange("age")} />
+            {renderError("age")}
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Gender</label>
+            <select
+              value={formData.gender}
+              onChange={handleChange("gender")}
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            >
+              <option value="">Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+            {renderError("gender")}
           </div>
         </div>
 
         {/* Medical Info */}
-        <div>
-          <h3 className="text-lg font-semibold text-gray-700 mb-4 border-b pb-2">Medical Details</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Blood Type</label>
-              <select
-                value={formData.bloodType}
-                onChange={handleChange("bloodType")}
-                className="w-full border border-gray-300 rounded px-3 py-2"
-              >
-                <option value="">Select</option>
-                {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map((type) => (
-                  <option key={type} value={type}>{type}</option>
-                ))}
-              </select>
-              {renderError("bloodType")}
-            </div>
-            <div>
-              <Input label="Organ (optional)" value={formData.organ} onChange={handleChange("organ")} />
-            </div>
-            <div>
-              <Input label="HLA Type (optional)" value={formData.hlaType} onChange={handleChange("hlaType")} />
-            </div>
-            <div>
-              <Input
-                label="Urgency Level (1–5)"
-                type="number"
-                value={formData.urgencyLevel}
-                onChange={handleChange("urgencyLevel")}
-              />
-              {renderError("urgencyLevel")}
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Blood Type</label>
+            <select
+              value={formData.bloodType}
+              onChange={handleChange("bloodType")}
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            >
+              <option value="">Select</option>
+              {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map((type) => (
+                <option key={type} value={type}>{type}</option>
+              ))}
+            </select>
+            {renderError("bloodType")}
+          </div>
+          <div>
+            <Input label="Organ (optional)" value={formData.organ} onChange={handleChange("organ")} />
+          </div>
+          <div>
+            <Input label="HLA Type (optional)" value={formData.hlaType} onChange={handleChange("hlaType")} />
+          </div>
+          <div>
+            <Input
+              label="Urgency Level (1–5)"
+              type="number"
+              value={formData.urgencyLevel}
+              onChange={handleChange("urgencyLevel")}
+            />
+            {renderError("urgencyLevel")}
           </div>
         </div>
 
         {/* Location Info */}
-        <div>
-          <h3 className="text-lg font-semibold text-gray-700 mb-4 border-b pb-2">Location Details</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <Input label="City" value={formData.locationCity} onChange={handleChange("locationCity")} />
-              {renderError("locationCity")}
-            </div>
-            <div>
-              <Input label="Latitude" type="number" value={formData.latitude} onChange={handleChange("latitude")} />
-              {renderError("latitude")}
-            </div>
-            <div>
-              <Input label="Longitude" type="number" value={formData.longitude} onChange={handleChange("longitude")} />
-              {renderError("longitude")}
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <Input label="City" value={formData.locationCity} onChange={handleChange("locationCity")} />
+            {renderError("locationCity")}
           </div>
-          <button
-            type="button"
-            onClick={autofillLocation}
-            className="mt-2 text-sm text-blue-600 hover:underline"
-          >
-            📍 Use My Location
-          </button>
+          <div>
+            <Input label="Latitude" type="number" value={formData.latitude} onChange={handleChange("latitude")} />
+            {renderError("latitude")}
+          </div>
+          <div>
+            <Input label="Longitude" type="number" value={formData.longitude} onChange={handleChange("longitude")} />
+            {renderError("longitude")}
+          </div>
         </div>
-
-        
+        <button
+          type="button"
+          onClick={autofillLocation}
+          className="mt-2 text-sm text-blue-600 hover:underline"
+        >
+          📍 Use My Location
+        </button>
 
         <div className="pt-4">
           <Button text="Submit Donor Info" />

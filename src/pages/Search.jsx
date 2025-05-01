@@ -3,9 +3,6 @@ import Input from "../Components/Input";
 import Button from "../Components/Button";
 import { motion } from "framer-motion";
 
-const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
-const cities = ["Delhi", "Mumbai", "Bangalore", "Chennai", "Kolkata", "Hyderabad"];
-
 const Search = () => {
   const [criteria, setCriteria] = useState({
     bloodGroup: "",
@@ -33,7 +30,7 @@ const Search = () => {
     e.preventDefault();
     const filtered = donors.filter(
       (donor) =>
-        donor.bloodType === criteria.bloodGroup &&
+        donor.bloodType.toLowerCase() === criteria.bloodGroup.toLowerCase() &&
         donor.location?.city?.toLowerCase() === criteria.location.toLowerCase()
     );
     setResults(filtered);
@@ -48,36 +45,20 @@ const Search = () => {
       <form onSubmit={handleSearch} className="space-y-4">
         <div>
           <label className="block text-gray-700 mb-1 font-medium">Blood Group</label>
-          <select
+          <Input
+            placeholder="e.g. A+, O-"
             value={criteria.bloodGroup}
             onChange={(e) => setCriteria({ ...criteria, bloodGroup: e.target.value })}
-            className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
-            required
-          >
-            <option value="">Select Blood Group</option>
-            {bloodGroups.map((group) => (
-              <option key={group} value={group}>
-                {group}
-              </option>
-            ))}
-          </select>
+          />
         </div>
 
         <div>
           <label className="block text-gray-700 mb-1 font-medium">Location</label>
-          <select
+          <Input
+            placeholder="e.g. Delhi"
             value={criteria.location}
             onChange={(e) => setCriteria({ ...criteria, location: e.target.value })}
-            className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
-            required
-          >
-            <option value="">Select City</option>
-            {cities.map((city) => (
-              <option key={city} value={city}>
-                {city}
-              </option>
-            ))}
-          </select>
+          />
         </div>
 
         <div className="text-center">
@@ -88,9 +69,7 @@ const Search = () => {
       <div className="mt-8">
         {results.length > 0 ? (
           <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-gray-700">
-              Matching Donors
-            </h3>
+            <h3 className="text-xl font-semibold text-gray-700">Matching Donors</h3>
             {results.map((donor, index) => (
               <motion.div
                 key={index}
@@ -107,9 +86,7 @@ const Search = () => {
             ))}
           </div>
         ) : (
-          <p className="text-center text-gray-500 mt-6">
-            No results to display.
-          </p>
+          <p className="text-center text-gray-500 mt-6">No results to display.</p>
         )}
       </div>
     </div>
