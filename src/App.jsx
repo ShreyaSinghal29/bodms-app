@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import DonorForm from "./components/DonorForm";
+import DonorForm from "./Components/DonorForm";  
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Search from "./pages/Search";

@@ -1,5 +1,5 @@
 import React from "react";
-import DonorForm from "../components/DonorForm";
+import DonorForm from "../Components/DonorForm";
 
 const Register = () => {
   return (
