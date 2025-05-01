@@ -25,10 +25,11 @@ const Home = () => {
           className="w-full lg:w-1/2 flex justify-center mb-12 lg:mb-0"
         >
           <img
-            src="public\original-003adee00415551ad9ee08e8388ccee0.webp"
-            alt="Blood Donation"
-            className="max-w-md w-full drop-shadow-xl"
-          />
+  src="/images/original-003adee00415551ad9ee08e8388ccee0.webp"
+  alt="Blood Donation"
+  className="max-w-md w-full drop-shadow-xl"
+/>
+
         </motion.div>
 
         {/* Text Content with Animation */}
